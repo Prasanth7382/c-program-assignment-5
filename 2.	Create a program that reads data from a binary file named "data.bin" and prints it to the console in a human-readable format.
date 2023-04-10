@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+typedef struct {
+    int id;
+    char name[20];
+    float score;
+} Record;
+
+int main() {
+    Record record;
+    FILE *file = fopen("data.bin", "rb");
+
+    // Check if file was opened successfully
+    if (file == NULL) {
+        printf("Error opening file.\n");
+        return 1;
+    }
+
+    // Read each record from file and print its contents to the console
+    while (fread(&record, sizeof(Record), 1, file) == 1) {
+        printf("ID: %d\n", record.id);
+        printf("Name: %s\n", record.name);
+        printf("Score: %.2f\n", record.score);
+        printf("\n");
+    }
+
+    // Close the file
+    fclose(file);
+
+    return 0;
+}
