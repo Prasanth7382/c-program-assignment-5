@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <ctype.h>
+
+int main() {
+    char filename[50], c;
+    int count[26] = {0}; // Initialize count array to zero
+    FILE *input_file, *output_file;
+
+    // Open the input file for reading
+    input_file = fopen("data.txt", "r");
+
+    // Check if input file was opened successfully
+    if (input_file == NULL) {
+        printf("Error opening input file.\n");
+        return 1;
+    }
+
+    // Read each character from the input file and update the count array
+    while ((c = fgetc(input_file)) != EOF) {
+        if (isalpha(c)) {
+            count[toupper(c) - 'A']++;
+        }
+    }
+
+    // Close the input file
+    fclose(input_file);
+
+    // Open the output file for writing
+    output_file = fopen("statistics.txt", "w");
+
+    // Check if output file was opened successfully
+    if (output_file == NULL) {
+        printf("Error opening output file.\n");
+        return 1;
+    }
+
+    // Write the counts to the output file
+    for (int i = 0; i < 26; i++) {
+        fprintf(output_file, "%c: %d\n", 'A' + i, count[i]);
+    }
+
+    // Close the output file
+    fclose(output_file);
+
+    printf("Statistics successfully written to statistics.txt.\n");
+
+    return 0;
+}
